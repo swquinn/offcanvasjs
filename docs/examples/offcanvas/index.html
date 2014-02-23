@@ -27,7 +27,7 @@
 		<![endif]-->
 	</head>
 	<body>
-		<div>
+		<div class="offcanvas-container">
 			<div id="offcanvas" class="offcanvas offcanvas-cobalt offcanvas-left">
 				<nav class="nav nav-offcanvas">
 					<h2>Navigation <a href="#" class="pull-right" data-toggle="offcanvas" data-target="#offcanvas">&times;</span></h2>
@@ -38,7 +38,8 @@
 					</ul>
 				</nav>
 			</div>
-			<div class="container offcanvas-main">
+			<div class="offcanvas-main">
+				<div class="container">
 				<div class="offcanvas-docs-section">
 					<h1 id="offcanvas-doc" class="page-header">Offcanvas <small>offcanvas.js</small></h1>
 
@@ -67,18 +68,19 @@
 
 					<h3>Via data attributes</h3>
 					<p>Activate a modal without writing JavaScript. Set <code>data-toggle="modal"</code> on a controller element, like a button, along with a <code>data-target="#foo"</code> or <code>href="#foo"</code> to target a specific modal to toggle.</p>
-					<button class="btn btn-primary" data-toggle="offcanvas" data-target="#offcanvas" data-content="#main" data-transition="push">Push</button>
-					<button class="btn btn-primary" data-toggle="offcanvas" data-target="#offcanvas" data-content="#main" data-transition="reveal">Reveal</button>
-					<button class="btn btn-primary" data-toggle="offcanvas" data-target="#offcanvas" data-content="#main" data-transition="slide">Slide</button>
+					<a href="#offcanvas" class="btn btn-primary" data-toggle="offcanvas" data-content="#main" data-transition="push">Push</a>
+					<a href="#offcanvas" class="btn btn-primary" data-toggle="offcanvas" data-content="#main" data-transition="reveal">Reveal</a>
+					<a href="#offcanvas" class="btn btn-primary" data-toggle="offcanvas" data-content="#main" data-transition="slide">Slide</a>
 
 					<h3>Via JavaScript</h3>
 					<p>Call a modal with id <code>myModal</code> with a single line of JavaScript:</p>
-		<pre>
-		<code>
-		$('#myModal').modal(options)
-		</code>
-		</pre>
-
+<!-- Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').modal(options)
+</code>
+</pre>
+<!-- /Figure 1.1 -->
 					<h3>Options</h3>
 					<p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-backdrop=""</code>.</p>
 					<div class="table-responsive">
@@ -103,22 +105,24 @@
 									<td>boolean</td>
 									<td>true</td>
 									<td>Closes the modal when escape key is pressed</td>
-							   </tr>
-							   <tr>
-									<td>show</td>
+								</tr>
+								<tr>
+									<td>parent</td>
+									<td>selector</td>
+									<td>false</td>
+									<td>The element corresponding to the <code>.offcanvas-container</code>; if not specified the immediate parent of the targeted <code>.offcanvas</code> element will be given the role of parent.</td>
+								</tr>
+								<tr>
+									<td>target</td>
+									<td>selector</td>
+									<td>false</td>
+									<td>An alias for the <code>href</code> attribute.</td>
+								</tr>
+								<tr>
+									<td>toggle</td>
 									<td>boolean</td>
 									<td>true</td>
-									<td>Shows the modal when initialized.</td>
-							   </tr>
-							   <tr>
-									<td>remote</td>
-									<td>path</td>
-									<td>false</td>
-									<td><p>If a remote URL is provided, <strong>content will be loaded one time</strong> via jQuery's <code>load</code> method and injected into the <code>.modal-content</code> div. If you're using the data-api, you may alternatively use the <code>href</code> attribute to specify the remote source. An example of this is shown below:</p>
-					{% highlight html %}
-					<a data-toggle="modal" href="remote.html" data-target="#modal">Click me</a>
-					{% endhighlight %}
-									</td>
+									<td>Toggles the offcanvas element on invocation.</td>
 								</tr>
 							</tbody>
 						</table>
@@ -128,83 +132,90 @@
 
 					<h4>.modal(options)</h4>
 					<p>Activates your content as a modal. Accepts an optional options <code>object</code>.</p>
-		<pre>
-		<code>
-		$('#myModal').modal({
-		  keyboard: false
-		})
-		</code>
-		</pre>
+<!-- Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').modal({
+  keyboard: false
+})
+</code>
+</pre>
+<!-- /Figure 1.1 -->
 
 					<h4>.modal('toggle')</h4>
 					<p>Manually toggles a modal. <strong>Returns to the caller before the modal has actually been shown or hidden</strong> (i.e. before the <code>shown.bs.modal</code> or <code>hidden.bs.modal</code> event occurs).</p>
-		<pre>
-		<code>
-		$('#myModal').modal('toggle')
-		</code>
-		</pre>
-
-		  <h4>.modal('show')</h4>
-		  <p>Manually opens a modal. <strong>Returns to the caller before the modal has actually been shown</strong> (i.e. before the <code>shown.bs.modal</code> event occurs).</p>
-		<pre>
-		<code>
-		$('#myModal').modal('show')
-		</code>
-		</pre>
-
-		  <h4>.modal('hide')</h4>
-		  <p>Manually hides a modal. <strong>Returns to the caller before the modal has actually been hidden</strong> (i.e. before the <code>hidden.bs.modal</code> event occurs).</p>
-		<pre>
-		<code>
-		$('#myModal').modal('hide')
-		</code>
-		</pre>
-
-		  <h3>Events</h3>
-		  <p>Bootstrap's modal class exposes a few events for hooking into modal functionality.</p>
-		  <div class="table-responsive">
-				<table class="table table-bordered table-striped">
-				  <thead>
-				   <tr>
-						 <th style="width: 150px;">Event Type</th>
-						 <th>Description</th>
-				   </tr>
-				  </thead>
-				  <tbody>
-				   <tr>
-						 <td>show.bs.modal</td>
-						 <td>This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
-				   </tr>
-				   <tr>
-						 <td>shown.bs.modal</td>
-						 <td>This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
-				   </tr>
-				   <tr>
-						 <td>hide.bs.modal</td>
-						 <td>This event is fired immediately when the <code>hide</code> instance method has been called.</td>
-				   </tr>
-				   <tr>
-						 <td>hidden.bs.modal</td>
-						 <td>This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-				   </tr>
-				   <tr>
-						 <td>loaded.bs.modal</td>
-						 <td>This event is fired when the modal has loaded content using the remote option.</td>
-				   </tr>
-				  </tbody>
-				</table>
-		  </div><!-- /.table-responsive -->
-		<pre>
-		<code>
-		$('#myModal').on('hidden.bs.modal', function (e) {
-		  // do something...
-		})
-		</code>
-		</pre>
-		</div>
+<!-- Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').modal('toggle')
+</code>
+</pre>
+<!-- /Figure 1.1 -->
+					<h4>.modal('show')</h4>
+					<p>Manually opens a modal. <strong>Returns to the caller before the modal has actually been shown</strong> (i.e. before the <code>shown.bs.modal</code> event occurs).</p>
+<!-- Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').modal('show')
+</code>
+</pre>
+<!-- /Figure 1.1 -->
+					<h4>.modal('hide')</h4>
+					<p>Manually hides a modal. <strong>Returns to the caller before the modal has actually been hidden</strong> (i.e. before the <code>hidden.bs.modal</code> event occurs).</p>
+<!-- /Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').modal('hide')
+</code>
+</pre>
+<!-- /Figure 1.1 -->
+					<h3>Events</h3>
+					<p>Bootstrap's modal class exposes a few events for hooking into modal functionality.</p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 150px;">Event Type</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>show.bs.modal</td>
+									<td>This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
+								</tr>
+								<tr>
+									<td>shown.bs.modal</td>
+									<td>This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.</td>
+								</tr>
+								<tr>
+									<td>hide.bs.modal</td>
+									<td>This event is fired immediately when the <code>hide</code> instance method has been called.</td>
+								</tr>
+								<tr>
+									<td>hidden.bs.modal</td>
+									<td>This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).</td>
+								</tr>
+								<tr>
+									<td>loaded.bs.modal</td>
+									<td>This event is fired when the modal has loaded content using the remote option.</td>
+								</tr>
+						  </tbody>
+						</table>
+					</div><!-- /.table-responsive -->
+<!-- /Figure 1.1 -->
+<pre>
+<code>
+$('#myModal').on('hidden.bs.modal', function (e) {
+  // do something...
+})
+</code>
+</pre>
+<!-- /Figure 1.1 -->
 				</div>
-			</div><!-- /.containter-->
-		</div>
+				</div> <!-- /.container-->
+			</div> 
+		</div> <!-- /.offcanvas-container -->
 
 		<!-- OffcanvasJS core JavaScript
 		================================================== -->

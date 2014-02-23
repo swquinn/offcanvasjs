@@ -24,10 +24,32 @@ module.exports = function (grunt) {
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*!\n' +
-            ' * OffcanvasJS v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-            ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
-            ' */\n',
+			'/* Copyright (c) 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+			' *\n' +
+			' * Licensed under the MIT License (http://opensource.org/licenses/MIT)\n' +
+			' *\n' +
+			' * Permission is hereby granted, free of charge, to any\n' +
+			' * person obtaining a copy of this software and associated\n' +
+			' * documentation files (the "Software"), to deal in the\n' +
+			' * Software without restriction, including without limitation\n' +
+			' * the rights to use, copy, modify, merge, publish,\n' +
+			' * distribute, sublicense, and/or sell copies of the Software,\n' +
+			' * and to permit persons to whom the Software is furnished\n' +
+			' * to do so, subject to the following conditions:\n' +
+			' *\n' +
+			' * The above copyright notice and this permission notice\n' +
+			' * shall be included in all copies or substantial portions of\n' +
+			' * the Software.\n' +
+			' *\n' +
+			' * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY\n' +
+			' * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE\n' +
+			' * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR\n' +
+			' * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS\n' +
+			' * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR\n' +
+			' * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT\n' +
+			' * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\n' +
+			' * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n' +
+			' */\n',
     jqueryCheck: 'if (typeof jQuery === \'undefined\') { throw new Error(\'Offcanvas\\\'s JavaScript requires jQuery\') }\n\n',
 
     // Task configuration.
@@ -106,7 +128,7 @@ module.exports = function (grunt) {
     },
 
     less: {
-      compileCore: {
+      compile: {
         options: {
           strictMath: true,
           sourceMap: true,
@@ -116,18 +138,6 @@ module.exports = function (grunt) {
         },
         files: {
           'dist/css/<%= pkg.name %>.css': 'less/offcanvas.less'
-        }
-      },
-      compileTheme: {
-        options: {
-          strictMath: true,
-          sourceMap: true,
-          outputSourceFiles: true,
-          sourceMapURL: '<%= pkg.name %>-theme.css.map',
-          sourceMapFilename: 'dist/css/<%= pkg.name %>-theme.css.map'
-        },
-        files: {
-          'dist/css/<%= pkg.name %>-theme.css': 'less/theme.less'
         }
       },
       minify: {

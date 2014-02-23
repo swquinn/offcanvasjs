@@ -1,5 +1,28 @@
-/*
- * 
+/* Copyright (c) 2014 Extesla Digital, LLC.
+ *
+ * Licensed under the MIT License (http://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any
+ * person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished
+ * to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice
+ * shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+ * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+ * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 (function($) {
 
@@ -40,8 +63,6 @@
 		if (this.transition === null) {
 			this.setTransition(this.options.transition);
 		}
-		this.$target.addClass(OFFCANVAS_PUSH_CLASS);
-		console.log('[SWQ] Offcanvas() >>> ', this);
 
 		$(document).on('click', function(/*DOMEvent*/ e) {
 			e.preventDefault();
@@ -65,11 +86,6 @@
 	 */
 	Offcanvas.prototype._initialize = function()
 	{
-		if (!this.options.target) {
-			throw 'Offcanvas must specify an offcanvas target via the `target` query property or `data-target` query attribute. No target found.';
-		}
-		this.$target = $(this.options.target);
-
 		if (!this.options.content) {
 			throw 'Offcanvas must specify a content target via the `content` query property or `data-content` query attribute. No target found.';
 		}
@@ -98,7 +114,6 @@
 	 * @return undefined
 	 */
 	Offcanvas.prototype.hide = function(/*DOMEvent*/ e) {
-		console.log('[SWQ] Offcanvas.prototype.hide >>> START');
 		if (this.transitioning || !this.parent.hasClass('offcanvas-active')) {
 			return;
 		}
@@ -107,7 +122,7 @@
 			startEvent = $.Event('hide.at.offcanvas'),
 			complete   = function() {
 				this.transitioning = 0;
-				this.$element
+				this.parent
 					.removeClass('offcanvas-close')
 					.removeClass('transitioning');
 				this.$element.trigger('hidden.at.offcanvas');
@@ -118,7 +133,7 @@
 			return;
 		}
 
-		this.$element
+		this.parent
 			.addClass('offcanvas-close')
 			.addClass('transitioning');
 		this.transitioning = 1;
@@ -150,7 +165,7 @@
 		var _self      = this,
 			startEvent = $.Event('show.at.offcanvas'),
 			complete   = function() {
-				this.$element
+				this.parent
 					.removeClass('offcanvas-open')
 					.removeClass('transitioning');
 				this.transitioning = 0;
@@ -162,7 +177,7 @@
 			return;
 		}
 
-		this.$element
+		this.parent
 			.addClass('offcanvas-open')
 			.addClass('transitioning');
 		this.transitioning = 1;
