@@ -1,0 +1,15 @@
+{
+  "name": "swquinn/offcanvasjs",
+  "description": "An offcanvas library which integrates with jQuery and Bootstrap.",
+  "keywords": ["bootstrap", "css", "offcanvas"],
+  "homepage": "https://github.com/swquinn/offcanvasjs",
+  "authors": [
+    {
+      "name": "Sean Quinn"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/swquinn/offcanvasjs/issues"
+  },
+  "license": "MIT"
+}

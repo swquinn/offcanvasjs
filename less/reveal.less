@@ -1,0 +1,25 @@
+//
+// Reveal
+// ----------------------------------------------
+
+// Reveal Transitions
+// ----------------------------------------------
+
+.offcanvas.transition-reveal.open .pusher {
+	-webkit-transform: translate3d(300px, 0, 0);
+	transform: translate3d(300px, 0, 0);
+}
+
+.offcanvas.transition-reveal {
+	z-index: 1;
+}
+
+.offcanvas.transition-reveal.open .nav-offcanvas {
+	visibility: visible;
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+}
+
+.offcanvas.transition-reveal::after {
+	display: none;
+}
