@@ -64,15 +64,6 @@
 			this.setTransition(this.options.transition);
 		}
 
-		$(document).on('click', function(/*DOMEvent*/ e) {
-			e.preventDefault();
-			var $target = $(e.target);
-			if ($target.closest(_self.$element).length === 0) {
-				console.log('Outside of body');
-				//_self.hide(e);
-			}
-		});
-
 		// **
 		// On a newly created Offcanvas object, with "toggle: true", we should
 		// immediately toggle the plugin. [SWQ]
