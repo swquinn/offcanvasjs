@@ -38,7 +38,7 @@
 
 	/**
 	 * Constructor and offcanvas plugin "class" definition.
-	 * 
+	 *
 	 * The Offcanvas plugin adds support for offcanvas content and the display
 	 * of that content using various different transitions, such as pushing,
 	 * revealing, sliding, and 3D animations.
@@ -72,8 +72,29 @@
 	Offcanvas.DEFAULTS = {
 		autohide: true
 		,placement: "auto"
-		,transition: 'push' // SUPPORTED: push, reveal
+		,transition: 'push' // SUPPORTED: push, reveal, slide
 		,toggle: true
+	};
+
+	/**
+	 * Toggles the offcanvas open-or-closed, depending on the current state of
+	 * the offcanvas element.
+	 */
+	Offcanvas.prototype.applyTransition = function(/*string*/ transition) {
+		var canvas = this.options.canvas ? $(this.options.canvas) : this.$element;
+
+		if (transition) {
+			var transitionClass = TRANSITION_CLASS_PREFIX + transition;
+			if (this.transition !== transitionClass) {
+				if (this.transition !== null) {
+					console.info('Offcanvas: Removing transition class: ', this.transition, ' from canvas: ', canvas);
+					canvas.removeClass(this.transition);
+				}
+				console.info('Offcanvas: Applying transition class: ', transitionClass, ' on parent: ', canvas);
+				this.transition = transitionClass;
+				canvas.addClass(this.transition);
+			}
+		}
 	};
 
 	/**
@@ -88,7 +109,129 @@
 				return $(this).css('position') === 'fixed'
 			}).not(this.options.exclude);
 		return canvas.add(fixedElements)
-	},
+	};
+
+	/**
+	 *
+	 */
+	Offcanvas.prototype.dimension = function()
+	{
+		var hasWidth = this.$element.hasClass('width')
+		return hasWidth ? 'width' : 'height'
+	};
+
+	Offcanvas.prototype.disableScrolling = function()
+	{
+		var bodyWidth = $('body').width(),
+			prop = 'padding-right';
+
+		$('body').css('overflow', 'hidden');
+
+		if ($('body').width() > bodyWidth) {
+			var padding = parseInt($('body').css(prop), 10) + $('body').width() - bodyWidth;
+
+			setTimeout(function() {
+				$('body').css(prop, padding);
+			}, 1);
+		}
+		//disable scrolling on mobiles (they ignore overflow:hidden)
+		$('body').on('touchmove.bs', function(e) {
+			e.preventDefault();
+		});
+	};
+
+	/**
+	 * Enables scrolling on the target canvas.
+	 */
+	Offcanvas.prototype.enableScrolling = function()
+	{
+		$('body').off('touchmove.bs');
+	};
+
+	/**
+	 * Performs the actual transition. If a transition is not supported, the
+	 * widget will use jQuery to achieve the transition's animated effect.
+	 *
+	 * @return undefined
+	 */
+	Offcanvas.prototype.handleTransition = function(elements, offset, callback)
+	{
+		console.log('Handling transition');
+		if (!$.support.transition) {
+			var anim = {}
+			anim[this.placement] = "+=" + offset
+			return elements.animate(anim, 350, callback)
+		}
+
+		var placement = this.placement,
+			opposite  = this.opposite(placement);
+
+		elements.each(function() {
+			var $this = $(this),
+				placeAt = function(el, placement, offset) {
+					var value = (parseInt($(el).css(placement), 10) || 0);
+					console.debug("Placement => ", placement, "; Value => ", value, "; Offset => ", offset);
+					$(el).css(placement, value + offset);
+				};
+			if ($this.css(placement) !== 'auto') placeAt($this, placement, offset);
+			if ($this.css(opposite) !== 'auto') placeAt($this, opposite, -offset);
+		});
+
+		this.$element
+			.one($.support.transition.end, callback)
+			.emulateTransitionEnd(350);
+	};
+
+	/**
+	 * Closes the Offcanvas element, by hiding it.
+	 *
+	 * @return undefined
+	 */
+	Offcanvas.prototype.hide = function(/*DOMEvent*/ e) {
+		if (this.state !== 'open') return;
+
+		var dfd        = this,
+			elements   = this.elements('.offcanvas-open'),
+			placement  = this.placement,
+			offset     = -1 * this.offset(),
+			startEvent = $.Event('hide.bs.offcanvas'),
+			complete   = function() {
+				if (this.state != 'transitioning') return;
+				this.state = null;
+				this.placement = null;
+				this.$element.removeClass('in');
+				elements.removeClass('offcanvas-transitioning');
+
+				// **
+				// Restore the cached styles so that when the offcanvas element is
+				// hidden the page is reset back to its baseline state. [SWQ]
+				elements.add(this.$element).add('body').each(function() {
+					var item = $(this);
+					if (item.data('offcanvas-style-cache') !== undefined) {
+						item.attr('style', item.data('offcanvas-style-cache'));
+					}
+					item.removeData('offcanvas-style-cache');
+				});
+
+				this.$element.trigger('hidden.bs.offcanvas');
+			};
+
+		this.$element.trigger(startEvent);
+		if (startEvent.isDefaultPrevented()) {
+			return;
+		}
+
+		this.state = 'transitioning';
+
+		/*if (this.options.disableScrolling)*/ this.enableScrolling();
+		if (this.options.modal) this.toggleBackdrop();
+
+		elements.removeClass('offcanvas-open').addClass('offcanvas-transitioning');
+
+		setTimeout($.proxy(function() {
+			this.handleTransition(elements, offset, $.proxy(complete, this));
+		}, this), 1);
+	};
 
 	/**
 	 * Handles the offset from the edge which the offcanvas element is
@@ -99,10 +242,12 @@
 	Offcanvas.prototype.offset = function()
 	{
 		if (this.placement === 'left' || this.placement === 'right') {
+			console.debug("Placement => ", this.placement, "; Width => ", this.$element.outerWidth());
 			return this.$element.outerWidth();
 		}
+		console.debug("Placement => ", this.placement, "; Height => ", this.$element.outerHeight());
 		return this.$element.outerHeight();
-	},
+	};
 
 	/**
 	 * Returns the opposing location from the passed <tt>placement</tt>
@@ -116,7 +261,7 @@
 		if (placement === 'bottom') return 'top';
 		if (placement === 'left') return 'right';
 		return 'auto';
-	},
+	};
 
 	/**
 	 * Updates and returns the placement of the offcanvas element on the screen.
@@ -162,56 +307,10 @@
 			this.$element.removeClass('in').css('visibility', '');
 		}
 		return this.placement;
-	},
-
-	/**
-	 *
-	 */
-	Offcanvas.prototype.dimension = function () {
-		var hasWidth = this.$element.hasClass('width')
-		return hasWidth ? 'width' : 'height'
-	  }
-
-	/**
-	 * Closes the Offcanvas element, by hiding it.
-	 * 
-	 * @return undefined
-	 */
-	Offcanvas.prototype.hide = function(/*DOMEvent*/ e) {
-		if (this.state !== 'open') return;
-
-		var dfd        = this,
-			elements   = this.elements('.offcanvas-open'),
-			placement  = this.placement,
-			offset     = -1 * this.offset(),
-			startEvent = $.Event('hide.at.offcanvas'),
-			complete   = function() {
-				if (this.state != 'transitioning') return;
-				this.state = null;
-				this.placement = null;
-				this.$element.removeClass('in');
-				elements.removeClass('.offcanvas-open');
-				elements.add(this.$element).add('body').each(function() {
-					$(this).attr('style', $(this).data('offcanvas-style')).removeData('offcanvas-style');
-				});
-				this.$element.trigger('hidden.at.offcanvas');
-			};
-
-		this.$element.trigger(startEvent);
-		if (startEvent.isDefaultPrevented()) {
-			return;
-		}
-
-		if (this.options.modal) this.toggleBackdrop();
-		elements.removeClass('offcanvas-open').addClass('transitioning');
-
-		setTimeout($.proxy(function() {
-			this.transition(elements, offset, $.proxy(complete, this));
-		}, this), 350);
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	Offcanvas.prototype.show = function(/*DOMEvent*/ e)
 	{
@@ -232,7 +331,7 @@
 			complete   = function() {
 				if (this.state != 'transitioning') return;
 				this.state = 'open';
-				elements.removeClass('transitioning').addClass('offcanvas-open');
+				elements.removeClass('offcanvas-transitioning').addClass('offcanvas-open');
 				this.$element.trigger('shown.bs.offcanvas');
 			};
 
@@ -243,28 +342,33 @@
 
 		this.state = 'transitioning';
 		if (elements.index(this.$element) !== -1) {
-			$(this.$element).data('offcanvas-style', $(this.$element).attr('style') || '')
+			// ** Cache Offcanvas element's style (if it exists)
+			this.$element.data('offcanvas-style-cache', this.$element.attr('style') || '');
 			this.$element.css(placement, -1 * offset)
-			this.$element.css(placement); // Workaround: Need to get the CSS property for it to be applied before the next line of code
+			this.$element.css(placement);
 		}
 
-		elements.addClass('canvas-sliding').each(function() {
-			if ($(this).data('offcanvas-style') === undefined) {
-				$(this).data('offcanvas-style', $(this).attr('style') || '');
-			}
-			if ($(this).css('position') === 'static') {
-				$(this).css('position', 'relative');
-			}
-			if (($(this).css(placement) === 'auto' || $(this).css(placement) === '0px')
-					&& ($(this).css(opposite) === 'auto' || $(this).css(opposite) === '0px')) {
-				$(this).css(placement, 0);
+		elements.addClass('offcanvas-transitioning').each(function() {
+			var item = $(this);
+
+			// ** Cache the style of the transitioning element(s)...
+			if (item.data('offcanvas-style-cache') === undefined) item.data('offcanvas-style-cache', item.attr('style') || '');
+
+			// ** Assign placement
+			if (item.css('position') === 'static') item.css('position', 'relative');
+			if ((item.css(placement) === 'auto' || item.css(placement) === '0px')
+					&& (item.css(opposite) === 'auto' || item.css(opposite) === '0px')) {
+				item.css(placement, 0);
 			}
 		});
-		if (this.options.modal) this.toggleBackdrop();
+
+		this.disableScrolling();
+		//if (this.options.modal) this.toggleBackdrop();
+
 		setTimeout($.proxy(function() {
 			this.$element.addClass('in');
-			this.transition(elements, offset, $.proxy(complete, this))
-		}, this), 350);
+			this.handleTransition(elements, offset, $.proxy(complete, this))
+		}, this), 1);
 	};
 
 	/**
@@ -278,60 +382,14 @@
 		this[this.state === 'open' ? 'hide' : 'show']();
 	};
 
-	/**
-	 * Performs the actual transition. If a transition is not supported, the
-	 * widget will use jQuery to achieve the transition's animated effect.
-	 *
-	 * @return undefined
-	 */
-	Offcanvas.prototype.transition = function (elements, offset, callback)
-	{
-		if (!$.support.transition) {
-			var anim = {}
-			anim[this.placement] = "+=" + offset
-			return elements.animate(anim, 350, callback)
-		}
-
-		var placement = this.placement,
-			opposite  = this.opposite(placement);
-
-		elements.each(function() {
-			if ($(this).css(placement) !== 'auto') this.placeAt(placement, offset);
-			if ($(this).css(opposite) !== 'auto') this.placeAt(opposite, -offset);
-		});
-
-		this.$element
-			.one($.support.transition.end, callback)
-			.emulateTransitionEnd(350);
-	},
-
-	/**
-	 * Toggles the offcanvas open-or-closed, depending on the current state of
-	 * the offcanvas element.
-	 */
-	Offcanvas.prototype.setTransition = function(/*string*/ transition) {
-		if (transition) {
-			var transitionClass = TRANSITION_CLASS_PREFIX + transition;
-			if (this.transition !== transitionClass) {
-				if (this.transition !== null) {
-					console.info('Offcanvas: Removing transition class: ', this.transition, ' from parent: ', this.parent);
-					this.parent.removeClass(this.transition);
-				}
-				console.info('Offcanvas: Setting transition class: ', transitionClass, ' on parent: ', this.parent);
-				this.transition = transitionClass;
-				this.parent.addClass(this.transition);
-			}
-		}
-	};
-
 	// OFFCANVAS PLUGIN DEFINITION
 	// ===========================
 	var old = $.fn.offcanvas;
 	$.fn.offcanvas = function(option) {
 		return this.each(function() {
 			var $this   = $(this),
-				data    = $this.data('at.offcanvas'),
-				options = $.extend({}, Offcanvas.DEFAULTS, $this.data(), (typeof option === 'object') && option);
+				data    = $this.data('bs.offcanvas'),
+				options = $.extend({}, Offcanvas.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
 			// **
 			// If an Offcanvas object has not yet been created, but the only
@@ -345,7 +403,7 @@
 			// If the Offcanvas data-model has not yet been instantiated,
 			// instatiate it with the options. [SWQ]
 			if (!data) {
-				$this.data('at.offcanvas', (data = new Offcanvas(this, options)));
+				$this.data('bs.offcanvas', (data = new Offcanvas(this, options)));
 			}
 
 			// **
@@ -356,8 +414,8 @@
 			// if (func === 'toggle') {
 			//   data.toggle();
 			// }
-			if (option && typeof(option) === 'string'
-					&& data[option] && typeof(data[option]) === 'function') {
+			if (option && typeof option === 'string'
+					&& data[option] && typeof data[option] === 'function') {
 				data[option]();
 			}
 		});
@@ -370,35 +428,29 @@
 		$.fn.offcanvas = old;
 		return this;
 	};
-	
+
 	// OFFCANVAS DATA-API
 	// ==================
-	$(document).on('click.at.offcanvas.data-api', '[data-toggle="offcanvas"]', function (e) {
+	$(document).on('click.bs.offcanvas.data-api', '[data-toggle="offcanvas"]', function (e) {
 		e.preventDefault();
 		var $this       = $(this), href
-			,target     = $this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+			,target     = $this.attr('data-target')
+				|| e.preventDefault()
+				|| (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
 			,$target    = $(target)
-			,parent     = $this.attr('data-parent')
-			,$parent    = parent && $(parent)
-			,data       = $target.data('at.offcanvas')
+			,data       = $target.data('bs.offcanvas')
 			,options    = data ? 'toggle' : $this.data()
 			,transition = $this.attr('data-transition');
 
-		// **
-		// If we're in the process of transitioning...
-		if (!data || !data.transitioning) {
-			if ($parent) {
-				$parent.find('[data-toggle="offcanvas"][data-parent="' + parent + '"]').not($this).addClass('opened');
-			}
-			$this[$target.hasClass('open') ? 'addClass' : 'removeClass']('open');
-		}
+		// ** Prevent DOM events from propogating
+		e.stopPropagation();
 
 		// **
 		// If a different transition was passed in, we should update the
 		// transition class on the target offcanvas object.
 		if (data && transition) {
-			data.setTransition(transition);
+			data.applyTransition(transition);
 		}
 		$target.offcanvas(options);
 	});
-}(jQuery));
+}(window.jQuery));

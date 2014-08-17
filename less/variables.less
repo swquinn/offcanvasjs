@@ -1,37 +1,74 @@
+// Copyright (c) 2014 Extesla Digital, LLC.
+//
+// Licensed under the MIT License (http://opensource.org/licenses/MIT)
+//
+// Permission is hereby granted, free of charge, to any
+// person obtaining a copy of this software and associated
+// documentation files (the "Software"), to deal in the
+// Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished
+// to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice
+// shall be included in all copies or substantial portions of
+// the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+// KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+// PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+// OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// Colors -> default (whit-ish), inverse (dark grey), slate, cobalt, 
+@gray-darker:                lighten(#000, 13.5%); // #222
+@gray-dark:                  lighten(#000, 20%);   // #333
+@gray:                       lighten(#000, 33.5%); // #555
+@gray-light:                 lighten(#000, 60%);   // #999
+@grat-lighter:               lighten(#000, 93.5%); // #eee
 
-@gray-darker:            lighten(#000, 13.5%); // #222
-@gray-dark:              lighten(#000, 20%);   // #333
-@gray:                   lighten(#000, 33.5%); // #555
-@gray-light:             lighten(#000, 60%);   // #999
-@grat-lighter:           lighten(#000, 93.5%); // #eee
-
-@brand-default:    @gray-light;
-@brand-inverse:    #282828; //#212121
-@brand-slate:       #454545;
-@brand-cloud:      #363f4e;
-@brand-cobalt:     #1f3b63; // or #1F3C66; gradient to: #102037
+@brand-default:              @gray-light;
+@brand-inverse:              #282828; //#212121
+@brand-slate:                #454545;
+@brand-cloud:                #363f4e;
+@brand-cobalt:               #1f3b63; // or #1F3C66; gradient to: #102037
 
 
-@offcanvas-default-color:   #333;
-@offcanvas-default-bg:      #fff;
-@offcanvas-default-border:  #ccc;
+@offcanvas-default-color:    #333;
+@offcanvas-default-bg:       #fff;
+@offcanvas-default-border:   #ccc;
 
-@offcanvas-inverse-color:   #fff;
-@offcanvas-inverse-bg:      @brand-inverse;
-@offcanvas-inverse-border:  darken(@offcanvas-inverse-bg, 10%);
+@offcanvas-inverse-color:    #fff;
+@offcanvas-inverse-bg:       @brand-inverse;
+@offcanvas-inverse-border:   darken(@offcanvas-inverse-bg, 10%);
 
-@offcanvas-slate-color:     #fff; //#d7dee8;
-@offcanvas-slate-bg:        @brand-slate;
-@offcanvas-slate-border:    darken(@offcanvas-slate-bg, 10%);
+@offcanvas-slate-color:      #fff; //#d7dee8;
+@offcanvas-slate-bg:         @brand-slate;
+@offcanvas-slate-border:     darken(@offcanvas-slate-bg, 10%);
 
-@offcanvas-cloud-color:     #fff;
-@offcanvas-cloud-bg:        @brand-cloud;
-@offcanvas-cloud-border:    darken(@offcanvas-cloud-bg, 10%);
+@offcanvas-cloud-color:      #fff;
+@offcanvas-cloud-bg:         @brand-cloud;
+@offcanvas-cloud-border:     darken(@offcanvas-cloud-bg, 10%);
 
 @offcanvas-cobalt-color:     #fff; //#95bbff;
 @offcanvas-cobalt-bg:        @brand-cobalt;
 @offcanvas-cobalt-border:    darken(@offcanvas-cobalt-bg, 10%);
 
 @offcanvas-border-width:     10px;
+
+@navmenu-width:              300px;
+
+@screen-xs:                  480px;
+@screen-sm:                  768px;
+@screen-md:                  992px;
+@screen-lg:                  1200px;
+@screen-xs-min:              @screen-xs;
+@screen-sm-min:              @screen-sm;
+@screen-md-min:              @screen-md;
+@screen-lg-min:              @screen-lg;
+@screen-xs-max:              (@screen-sm-min - 1);
+@screen-sm-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-lg-min - 1);

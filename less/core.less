@@ -24,165 +24,88 @@
 // OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+.offcanvas
+{
+  display: none;
 
+  &.in {
+    display: block;
+  }
+}
 
-// Offcanvas Container
-// ----------------------------------------------
-// The .offcanvas-container class should be placed on the parent layer of the
-// offcanvas workflow; that is, the outer most layer of the components to be
-// affected by the offcanvas transitions.
-//
-// Its purpose is to constrain the content of the offcanvas transitions to the
-// view port. This prevents the horizontal scrollbar from showing up in
-// left-to-right and right-to-left transitions.
-//
-.navmenu,
-.offcanvas-container
+@media (max-width: @screen-xs-max)
+{
+  .offcanvas-xs {
+    .offcanvas;
+  }
+}
+@media (max-width: @screen-sm-max)
+{
+  .offcanvas-sm {
+    .offcanvas;
+  }
+}
+
+@media (max-width: @screen-md-max)
+{
+  .offcanvas-md {
+    .offcanvas;
+  }
+}
+
+.offcanvas-lg {
+  .offcanvas;
+}
+
+.navmenu
 {
   overflow-x: hidden;
   background: none repeat scroll 0 0 #444444;
-  
-  //.st-pusher
-  .offcanvas-main
-  {
-    position: relative;
-    left: 0;
-    z-index: 99;
-    height: 100%;
-    -webkit-transition: -webkit-transform .5s;
-            transition:         transform .5s;
-  }
-
-  //.st-pusher:after  
-  .offcanvas-main::after
-  {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    content: '';
-    background: rgba(0,0,0,.2);
-    opacity: 0;
-    -webkit-transition: opacity .5s, width .1s .5s, height .1s .5s;
-            transition: opacity .5s, width .1s .5s, height .1s .5s;
-  }
-  
-  .transitioning
-  {
-    .offcanvas-main::after
-    {
-      width: 100%;
-      height: 100%;
-      transition: opacity .5s ease 0s;
-    }
-  }
-  
-  .transitioning.offcanvas-open
-  {
-    .offcanvas-main::after
-	{
-      opacity: 1;
-    }
-  }
-  
-  .transitioning.offcanvas-close
-  {
-    .offcanvas-main::after
-	{
-      opacity: 0;
-    }
-  }
 }
 
-// .st-menu-open .st-pusher::after
-.offcanvas-container.offcanvas-active .offcanvas-main::after {
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  -webkit-transition: opacity .5s;
-          transition: opacity .5s;
+.offcanvas-transitioning
+{
+  -webkit-transition: top 0.35s, left 0.35s, bottom 0.35s, right 0.35s;
+          transition: top 0.35s, left 0.35s, bottom 0.35s, right 0.35s;
 }
 
-//.st-menu
-.offcanvas-container .offcanvas {
+.nav-offcanvas
+{
+  height: auto;
+  width: @navmenu-width;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0px;
+  padding: 0px 20px 0px 10px;
+}
+
+.nav-offcanvas.offcanvas-left,
+.nav-offcanvas.offcanvas-right
+{
   position: fixed;
   top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  border-radius: 0;
+}
+
+.nav-offcanvas.offcanvas-left
+{
   left: 0;
-  z-index: 100;
-  width: 300px;
-  height: 100%;
-  visibility: hidden; /*visibility: visible;*/
-  -webkit-transition: all .5s;
-          transition: all .5s;
+  right: auto;
+  border-width: 0px 1px 0px 0px;
 }
 
-//.st-menu::after
-.offcanvas-container .offcanvas::after {
-  position: absolute;
-  top: 0;
+.nav-offcanvas.offcanvas-right
+{
+  left: auto;
   right: 0;
-  width: 100%;
-  height: 100%;
-  content: '';
-  background: rgba(0,0,0,.2);
-  opacity: 1;
+  border-width: 0px 0px 0px 1px;
 }
 
-//.st-menu-open .st-menu::after
-.offcanvas-container.offcanvas-active .offcanvas::after {
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-
-.offcanvas-container .offcanvas.offcanvas-left {
-  -webkit-transform: translate3d(-100%, 0, 0);
-          transform: translate3d(-100%, 0, 0);
-}
-
-.offcanvas-container.offcanvas-active .offcanvas,
-.offcanvas-container.transitioning.offcanvas-open .offcanvas {
-  visibility: visible;
-}
-
-.offcanvas-container.transitioning.offcanvas-close .offcanvas {
-  visibility: visible;
-}
-
-.offcanvas-container .offcanvas.offcanvas-top {
-  border-width: 0px;
-  border-bottom-width: @offcanvas-border-width;
-}
-.offcanvas-container .offcanvas.offcanvas-right {
-  border-width: 0px;
-  border-left-width: @offcanvas-border-width;
-}
-.offcanvas-container .offcanvas.offcanvas-bottom {
-  border-width: 0px;
-  border-top-width: @offcanvas-border-width;
-}
-.offcanvas-container .offcanvas.offcanvas-left {
-  border-width: 0px;
-  border-right-width: @offcanvas-border-width;
-}
-
-.offcanvas-default {
-	.offcanvas-variant(@offcanvas-default-color; @offcanvas-default-bg; @offcanvas-default-border);
-}
-
-.offcanvas-inverse {
-	.offcanvas-variant(@offcanvas-inverse-color; @offcanvas-inverse-bg; @offcanvas-inverse-border);
-}
-
-.offcanvas-slate {
-	.offcanvas-variant(@offcanvas-slate-color; @offcanvas-slate-bg; @offcanvas-slate-border);
-}
-
-.offcanvas-cloud {
-	.offcanvas-variant(@offcanvas-cloud-color; @offcanvas-cloud-bg; @offcanvas-cloud-border);
-}
-
-.offcanvas-cobalt {
-	.offcanvas-variant(@offcanvas-cobalt-color; @offcanvas-cobalt-bg; @offcanvas-cobalt-border);
+.nav-offcanvas
+{
+  .nav {
+    margin: 0;
+  }
 }

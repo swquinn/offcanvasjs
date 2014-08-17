@@ -24,48 +24,13 @@
 // OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+.canvas-transitioning.transition-push
+{
+  -webkit-transform: translate3d(@navmenu-width, 0, 0);
+          transform: translate3d(@navmenu-width, 0, 0);
 
-
-//
-// Push
-// ----------------------------------------------
-
-// Push Transitions
-// ----------------------------------------------
-
-.transition-push.offcanvas-active .offcanvas-main {
-  -webkit-transform: translate3d(300px, 0, 0);
-          transform: translate3d(300px, 0, 0);
-}
-
-.transition-push.offcanvas-active .offcanvas.offcanvas-left {
-  -webkit-transform: translate3d(0,0,0);
-          transform: translate3d(0,0,0);
-}
-
-/*.st-effect-1.st-menu::after*/
-/*
-.transition-slide .offcanvas:after {
-  display: none;
-}
-*/
-
-.transition-push.transitioning.offcanvas-open .offcanvas-main {
-  -webkit-transform: translate3d(300px, 0, 0);
-          transform: translate3d(300px, 0, 0);
-}
-
-.transition-push.transitioning.offcanvas-close .offcanvas-main {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-}
-
-.transition-push.transitioning.offcanvas-open .offcanvas {
-  -webkit-transform: translate3d(0,0,0);
-          transform: translate3d(0,0,0);
-}
-
-.transition-push.transitioning.offcanvas-close .offcanvas {
-  -webkit-transform: translate3d(-100%,0,0);
-          transform: translate3d(-100%,0,0);
+  .offcanvas-left {
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+  }
 }
