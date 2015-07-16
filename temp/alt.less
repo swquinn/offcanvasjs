@@ -1,0 +1,493 @@
+//
+// These variables are used when Jasny Bootstrap is built
+// without importing Twitter Bootstrap.
+// --------------------------------------------------------
+
+//-- Colors
+//
+//## Gray colors for use across Bootstrap.
+
+@gray-darker:            lighten(#000, 13.5%); // #222
+@gray-dark:              lighten(#000, 20%);   // #333
+@gray:                   lighten(#000, 33.5%); // #555
+@gray-light:             lighten(#000, 60%);   // #999
+@gray-lighter:           lighten(#000, 93.5%); // #eee
+
+//-- Typography
+//
+//## Font size and line-height.
+
+@font-size-base:          14px;
+@font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
+@font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-base:        1.428571429; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
+
+
+//== Components
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+@padding-base-vertical:     6px;
+@padding-base-horizontal:   12px;
+
+@padding-large-vertical:    10px;
+@padding-large-horizontal:  16px;
+
+@padding-small-vertical:    5px;
+@padding-small-horizontal:  10px;
+
+@padding-xs-vertical:       1px;
+@padding-xs-horizontal:     5px;
+
+@line-height-large:         1.33;
+@line-height-small:         1.5;
+
+@border-radius-base:        4px;
+@border-radius-large:       6px;
+@border-radius-small:       3px;
+
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Background color used for `.table-hover`.
+@table-bg-hover:                #f5f5f5;
+
+
+//-- Z-index master list
+//
+// Warning: Avoid customizing these values. They're used for a bird's eye view
+// of components dependent on the z-axis and are designed to all work together.
+//
+// Note: These variables are not generated into the Customizer.
+
+@zindex-navmenu-fixed:     1030;
+@zindex-alert-fixed:       1035;
+
+@zindex-modal:             1050;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+@screen-xs:              480px;
+
+// Small screen / tablet
+@screen-sm:              768px;
+
+// Medium screen / desktop
+@screen-md:              992px;
+
+// Large screen / wide desktop
+@screen-lg:              1200px;
+
+//-- So media queries don't overlap when required, provide a maximum
+//
+// Note: These variables are not generated into the Customizer.
+@screen-xs-min:              @screen-xs;
+@screen-sm-min:              @screen-sm;
+@screen-md-min:              @screen-md;
+@screen-lg-min:              @screen-lg;
+
+@screen-xs-max:              (@screen-sm-min - 1);
+@screen-sm-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-lg-min - 1);
+
+//--
+@container-lg:              ((1140px + @grid-gutter-width));
+
+//== Grid system
+//
+//## Define your custom responsive grid.
+
+//** Padding between columns. Gets divided in half for the left and right.
+@grid-gutter-width:         30px;
+//** Point at which the navbar becomes uncollapsed.
+@grid-float-breakpoint:     768px;
+
+//** Maximum with of a smooth container.
+@container-smooth:          @container-lg;
+
+//== Navbar
+//
+//##
+
+// Basics of a navbar
+@navbar-height:                    50px;
+@navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
+@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+
+
+//== Navmenu
+//
+//##
+
+// Basics of a navmenu
+@navmenu-width:                     300px;
+@navmenu-margin-vertical:           (0.5 * @line-height-computed);
+@navmenu-default-color:             #777;
+@navmenu-default-bg:                #f8f8f8;
+@navmenu-default-border:            darken(@navmenu-default-bg, 6.5%);
+
+// Navmenu links
+@navmenu-default-link-color:                #777;
+@navmenu-default-link-hover-color:          #333;
+@navmenu-default-link-hover-bg:             transparent;
+@navmenu-default-link-active-color:         #555;
+@navmenu-default-link-active-bg:            darken(@navmenu-default-bg, 6.5%);
+@navmenu-default-link-disabled-color:       #ccc;
+@navmenu-default-link-disabled-bg:          transparent;
+
+// Navmenu brand label
+@navmenu-default-brand-color:               @navmenu-default-link-color;
+@navmenu-default-brand-hover-color:         darken(@navmenu-default-link-color, 10%);
+@navmenu-default-brand-hover-bg:            transparent;
+
+
+// Inverted navmenu
+//
+// Reset inverted navmenu basics
+@navmenu-inverse-color:                      @gray-light;
+@navmenu-inverse-bg:                         #222;
+@navmenu-inverse-border:                     darken(@navmenu-inverse-bg, 10%);
+
+// Inverted navmenu links
+@navmenu-inverse-link-color:                 @gray-light;
+@navmenu-inverse-link-hover-color:           #fff;
+@navmenu-inverse-link-hover-bg:              transparent;
+@navmenu-inverse-link-active-color:          @navmenu-inverse-link-hover-color;
+@navmenu-inverse-link-active-bg:             darken(@navmenu-inverse-bg, 10%);
+@navmenu-inverse-link-disabled-color:        #444;
+@navmenu-inverse-link-disabled-bg:           transparent;
+
+// Inverted navmenu brand label
+@navmenu-inverse-brand-color:                @navmenu-inverse-link-color;
+@navmenu-inverse-brand-hover-color:          #fff;
+@navmenu-inverse-brand-hover-bg:             transparent;
+
+// Inverted navmenu search
+// Normal navmenu needs no special styles or vars
+@navmenu-inverse-search-bg:                  lighten(@navmenu-inverse-bg, 25%);
+@navmenu-inverse-search-bg-focus:            #fff;
+@navmenu-inverse-search-border:              @navmenu-inverse-bg;
+@navmenu-inverse-search-placeholder-color:   #ccc;
+
+
+//== Navs
+//
+//##
+
+@nav-link-padding:                          10px 15px;
+@nav-tabs-active-link-hover-border-color:   #ddd;
+@nav-tabs-border-color:                     #ddd;
+
+
+//== Form states and alerts
+//
+//## Define colors for form feedback states and, by default, alerts.
+
+@state-success-text:             #3c763d;
+@state-success-bg:               #dff0d8;
+@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+
+@state-info-text:                #31708f;
+@state-info-bg:                  #d9edf7;
+@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+
+@state-warning-text:             #8a6d3b;
+@state-warning-bg:               #fcf8e3;
+@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+
+@state-danger-text:              #a94442;
+@state-danger-bg:                #f2dede;
+@state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
+
+// Drop shadows
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+          box-shadow: @shadow;
+}
+
+//== Alerts
+//
+//## Define alert colors, border radius, and padding.
+
+@alert-border-radius:         @border-radius-base;
+@alert-fixed-width:           @screen-md;
+
+.canvas-transitioning {
+  -webkit-transition: top 0.35s, left 0.35s, bottom 0.35s, right 0.35s;
+          transition: top 0.35s, left 0.35s, bottom 0.35s, right 0.35s;
+}
+
+.navmenu,
+.navbar-offcanvas {
+  width: @navmenu-width;
+  height: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: @border-radius-base;
+}
+
+.navmenu-fixed-left,
+.navmenu-fixed-right,
+.navbar-offcanvas {
+  position: fixed;
+  z-index: @zindex-navmenu-fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  border-radius: 0;
+}
+.navmenu-fixed-left,
+.navbar-offcanvas.navmenu-fixed-left {
+  left: 0;
+  right: auto;
+  border-width: 0 1px 0 0;
+}
+.navmenu-fixed-right,
+.navbar-offcanvas {
+  left: auto;
+  right: 0;
+  border-width: 0 0 0 1px;
+}
+
+.navmenu-nav {
+  margin-bottom: @navmenu-margin-vertical;
+
+  &.dropdown-menu {
+    position: static;
+    margin: 0;
+    padding-top: 0;
+    float: none;
+    border: none;
+    .box-shadow(none);
+    border-radius: 0;
+  }
+}
+
+.navbar-offcanvas {
+  .navbar-nav {
+    margin: 0;
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    width: auto;
+    border-top: 0;
+    box-shadow: none;
+
+    &.offcanvas {
+      position: static;
+      display: block !important;
+      height: auto !important;
+      padding-bottom: 0; // Override default setting
+      overflow: visible !important;
+    }
+
+    // Account for first and last children spacing
+    .navbar-nav.navbar-left:first-child {
+      margin-left: -@navbar-padding-horizontal;
+    }
+    .navbar-nav.navbar-right:last-child {
+      margin-right: -@navbar-padding-horizontal;
+    }
+
+    .navmenu-brand {
+      display: none;
+    }
+  }
+}
+
+// Brand/project name
+
+.navmenu-brand {
+  display: block;
+  font-size: @font-size-large;
+  line-height: @line-height-computed;
+  padding: @nav-link-padding;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+  margin: @navmenu-margin-vertical 0;
+}
+
+// Alternate navmenus
+// --------------------------------------------------
+
+// Default navmenu
+.navmenu-default,
+.navbar-default .navbar-offcanvas {
+  background-color: @navmenu-default-bg;
+  border-color: @navmenu-default-border;
+
+  .navmenu-brand {
+    color: @navmenu-default-brand-color;
+    &:hover,
+    &:focus {
+      color: @navmenu-default-brand-hover-color;
+      background-color: @navmenu-default-brand-hover-bg;
+    }
+  }
+
+  .navmenu-text {
+    color: @navmenu-default-color;
+  }
+
+  .navmenu-nav {
+    // Caret should match text color on hover
+    > .dropdown > a:hover .caret,
+    > .dropdown > a:focus .caret {
+      border-top-color: @navmenu-default-link-hover-color;
+      border-bottom-color: @navmenu-default-link-hover-color;
+    }
+
+    // Remove background color from open dropdown
+    > .open > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: @navmenu-default-link-active-bg;
+        color: @navmenu-default-link-active-color;
+        .caret {
+          border-top-color: @navmenu-default-link-active-color;
+          border-bottom-color: @navmenu-default-link-active-color;
+        }
+      }
+    }
+    > .dropdown > a .caret {
+      border-top-color: @navmenu-default-link-color;
+      border-bottom-color: @navmenu-default-link-color;
+    }
+    &.dropdown-menu {
+      background-color: @navmenu-default-link-active-bg;
+      & > .divider {
+        background-color: @navmenu-default-bg;
+      }
+      > .active > a {
+        &,
+        &:hover,
+        &:focus {
+          background-color: darken(@navmenu-default-link-active-bg, 6.5%);
+        }
+      }
+    }
+
+    > li > a {
+      color: @navmenu-default-link-color;
+      &:hover,
+      &:focus {
+        color: @navmenu-default-link-hover-color;
+        background-color: @navmenu-default-link-hover-bg;
+      }
+    }
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navmenu-default-link-active-color;
+        background-color: @navmenu-default-link-active-bg;
+      }
+    }
+    > .disabled > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navmenu-default-link-disabled-color;
+        background-color: @navmenu-default-link-disabled-bg;
+      }
+    }
+  }
+}
+
+// Inverse navmenu
+.navmenu-inverse,
+.navbar-inverse .navbar-offcanvas {
+  background-color: @navmenu-inverse-bg;
+  border-color: @navmenu-inverse-border;
+
+  .navmenu-brand {
+    color: @navmenu-inverse-brand-color;
+    &:hover,
+    &:focus {
+      color: @navmenu-inverse-brand-hover-color;
+      background-color: @navmenu-inverse-brand-hover-bg;
+    }
+  }
+
+  .navmenu-text {
+    color: @navmenu-inverse-color;
+  }
+
+  .navmenu-nav {
+    // Caret should match text color on hover
+    > .dropdown > a:hover .caret,
+    > .dropdown > a:focus .caret {
+      border-top-color: @navmenu-inverse-link-hover-color;
+      border-bottom-color: @navmenu-inverse-link-hover-color;
+    }
+
+    // Remove background color from open dropdown
+    > .open > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: @navmenu-inverse-link-active-bg;
+        color: @navmenu-inverse-link-active-color;
+        .caret {
+          border-top-color: @navmenu-inverse-link-active-color;
+          border-bottom-color: @navmenu-inverse-link-active-color;
+        }
+      }
+    }
+    > .dropdown > a .caret {
+      border-top-color: @navmenu-inverse-link-color;
+      border-bottom-color: @navmenu-inverse-link-color;
+    }
+    &.dropdown-menu {
+      background-color: @navmenu-inverse-link-active-bg;
+      & > .divider {
+        background-color: @navmenu-inverse-bg;
+      }
+      > .active > a {
+        &,
+        &:hover,
+        &:focus {
+          background-color: darken(@navmenu-inverse-link-active-bg, 6.5%);
+        }
+      }
+    }
+
+    > li > a {
+      color: @navmenu-inverse-link-color;
+      &:hover,
+      &:focus {
+        color: @navmenu-inverse-link-hover-color;
+        background-color: @navmenu-inverse-link-hover-bg;
+      }
+    }
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navmenu-inverse-link-active-color;
+        background-color: @navmenu-inverse-link-active-bg;
+      }
+    }
+    > .disabled > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navmenu-inverse-link-disabled-color;
+        background-color: @navmenu-inverse-link-disabled-bg;
+      }
+    }
+  }
+}
