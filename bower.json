@@ -5,6 +5,13 @@
 		"./dist/css/offcanvas.css",
 		"./dist/js/offcanvas.js"
 	],
+	"exportsOverride": {
+		"bootstrap": {
+			"css": "dist/css/*.css",
+			"fonts": "dist/fonts/*",
+			"js": "dist/js/*.js"
+		}
+	},
 	"ignore": [
 		"**/.*",
 		"composer.json",

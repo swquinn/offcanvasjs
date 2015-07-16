@@ -362,12 +362,12 @@
 			}
 		});
 
-		this.disableScrolling();
 		//if (this.options.modal) this.toggleBackdrop();
 
 		setTimeout($.proxy(function() {
 			this.$element.addClass('in');
 			this.handleTransition(elements, offset, $.proxy(complete, this))
+			this.disableScrolling();
 		}, this), 1);
 	};
 

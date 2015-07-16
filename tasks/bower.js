@@ -10,6 +10,7 @@ module.exports = function bower(grunt) {
 		install: {
 			options: {
 				targetDir: "dist/vendor",
+				layout: "byComponent",
 				verbose: true,
 				bowerOptions: {
 					forceLatest: true,

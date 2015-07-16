@@ -68,7 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ###   /vagrant -> rsynced folder
   ###   /shared  -> VirtualBox shared folder
   ###
-  config.vm.synced_folder "./dist", "/vagrant/dist"
+  config.vm.synced_folder "./dist", "/vagrant/dist", create: true
   config.vm.synced_folder ".", "/vagrant", type: "rsync",
     rsync__args: ["--verbose", "--archive", "--delete", "-z"], #"--rsync-path='sudo rsync'"
     rsync__auto: true,

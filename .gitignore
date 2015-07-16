@@ -40,5 +40,7 @@ validation-report.json
 # Folders to ignore
 node_modules
 bower_components
-/dist
-/.bower_components
+dist
+temp
+.bower_components
+.vagrant
