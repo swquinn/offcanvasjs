@@ -26,8 +26,26 @@
 
 .canvas-transitioning.transition-push
 {
-  -webkit-transform: translate3d(@navmenu-width, 0, 0);
-          transform: translate3d(@navmenu-width, 0, 0);
+
+  @media (max-width: @screen-xs-max) {
+    -webkit-transform: translate3d(@navmenu-xs-width, 0, 0);
+            transform: translate3d(@navmenu-xs-width, 0, 0);
+  }
+
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    -webkit-transform: translate3d(@navmenu-sm-width, 0, 0);
+            transform: translate3d(@navmenu-sm-width, 0, 0);
+  }
+
+  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    -webkit-transform: translate3d(@navmenu-md-width, 0, 0);
+            transform: translate3d(@navmenu-md-width, 0, 0);
+  }
+
+  @media (min-width: @screen-lg-min) {
+    -webkit-transform: translate3d(@navmenu-lg-width, 0, 0);
+            transform: translate3d(@navmenu-lg-width, 0, 0);
+  }
 
   .offcanvas-left {
     -webkit-transform: translate3d(0,0,0);
