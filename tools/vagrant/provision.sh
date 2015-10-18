@@ -29,13 +29,16 @@ IP_ADDRESS="$(ifconfig | grep '\<inet\>' | sed -n '1p' | tr -s ' ' | cut -d ' ' 
 
 echo -e "[INFO ] Installing NodeJS..."
 sudo apt-get update
-curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+echo -e "[INFO ] Updating npm..."
+sudo npm install npm -g
 
 echo -e "[INFO ] Installing grunt-cli..."
 sudo npm install -g grunt-cli
 
 echo -e "[INFO ] Installing node modules..."
 cd /vagrant
-#sudo chown -R vagrant:vagrant ~/.npm
+sudo chown -R vagrant:vagrant ~/.npm
 npm install --save-dev
