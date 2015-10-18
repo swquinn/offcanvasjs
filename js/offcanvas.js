@@ -72,6 +72,7 @@
 	Offcanvas.DEFAULTS = {
 		autohide: true
 		,placement: "auto"
+		,position: "relative"
 		,transition: 'push' // SUPPORTED: push, reveal, slide
 		,toggle: true
 	};
@@ -170,7 +171,7 @@
 			var $this = $(this),
 				placeAt = function(el, placement, offset) {
 					var value = (parseInt($(el).css(placement), 10) || 0);
-					console.debug("Placement => ", placement, "; Value => ", value, "; Offset => ", offset);
+					//console.debug("Placement => ", placement, "; Value => ", value, "; Offset => ", offset);
 					$(el).css(placement, value + offset);
 				};
 			if ($this.css(placement) !== 'auto') placeAt($this, placement, offset);
@@ -242,10 +243,10 @@
 	Offcanvas.prototype.offset = function()
 	{
 		if (this.placement === 'left' || this.placement === 'right') {
-			console.debug("Placement => ", this.placement, "; Width => ", this.$element.outerWidth());
+			//console.debug("Placement => ", this.placement, "; Width => ", this.$element.outerWidth());
 			return this.$element.outerWidth();
 		}
-		console.debug("Placement => ", this.placement, "; Height => ", this.$element.outerHeight());
+		//console.debug("Placement => ", this.placement, "; Height => ", this.$element.outerHeight());
 		return this.$element.outerHeight();
 	};
 
@@ -327,6 +328,7 @@
 			elements   = this.elements(),
 			placement  = this.place(),
 			opposite   = this.opposite(placement),
+			options    = this.options,
 			offset     = this.offset(),
 			complete   = function() {
 				if (this.state != 'transitioning') return;
@@ -355,7 +357,7 @@
 			if (item.data('offcanvas-style-cache') === undefined) item.data('offcanvas-style-cache', item.attr('style') || '');
 
 			// ** Assign placement
-			if (item.css('position') === 'static') item.css('position', 'relative');
+			if (item.css('position') === 'static') item.css('position', options['position']);
 			if ((item.css(placement) === 'auto' || item.css(placement) === '0px')
 					&& (item.css(opposite) === 'auto' || item.css(opposite) === '0px')) {
 				item.css(placement, 0);
@@ -440,7 +442,8 @@
 			,$target    = $(target)
 			,data       = $target.data('bs.offcanvas')
 			,options    = data ? 'toggle' : $this.data()
-			,transition = $this.attr('data-transition');
+			,transition = $this.attr('data-transition')
+			,position   = $this.attr('data-position');
 
 		// ** Prevent DOM events from propogating
 		e.stopPropagation();
@@ -450,6 +453,9 @@
 		// transition class on the target offcanvas object.
 		if (data && transition) {
 			data.applyTransition(transition);
+		}
+		if (data && position) {
+			data.options['position'] = position;
 		}
 		$target.offcanvas(options);
 	});
